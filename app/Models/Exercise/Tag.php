@@ -3,10 +3,13 @@
 namespace App\Models\Exercise;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Tag extends Model
 {
     protected $fillable = ['name', 'parent_id'];
+    use HasFactory;
+
 
     public function parent()
     {

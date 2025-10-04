@@ -3,9 +3,11 @@
 namespace App\Models\Exercise;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 class ExerciseType extends Model
 {
+    use HasFactory;
+
     protected $fillable = ['name', 'parent_id'];
 
     public function parent()
