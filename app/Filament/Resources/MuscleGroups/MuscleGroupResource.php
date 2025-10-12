@@ -21,6 +21,7 @@ class MuscleGroupResource extends Resource
     protected static ?string $model = MuscleGroup::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleGroup;
+    protected static string|null|\UnitEnum $navigationGroup = 'Exercises';
 
     protected static ?string $recordTitleAttribute = 'MuscleGroups';
 

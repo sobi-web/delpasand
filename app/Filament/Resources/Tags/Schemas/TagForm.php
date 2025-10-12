@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Tags\Schemas;
 
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
@@ -13,8 +14,9 @@ class TagForm
             ->components([
                 TextInput::make('name')
                     ->required(),
-                TextInput::make('parent_id')
-                    ->numeric(),
+                Select::make('parent')
+                    ->relationship('parent', 'name')
+                    ->label('Parent'),
             ]);
     }
 }

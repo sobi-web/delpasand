@@ -25,6 +25,7 @@ class ExerciseResource extends Resource
     protected static ?string $model = Exercise::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedLightBulb;
+    protected static string|null|\UnitEnum $navigationGroup = 'Exercises';
 
     protected static ?string $recordTitleAttribute = 'Exercises';
 

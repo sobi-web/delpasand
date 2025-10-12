@@ -22,6 +22,7 @@ class ExerciseTypeResource extends Resource
 
     protected static ?string $navigationLabel = 'Type';
 //    protected static ?string $navigationGroup = '1' ;
+    protected static string|null|\UnitEnum $navigationGroup = 'Exercises';
     protected static ?int $navigationSort = 1;
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedInformationCircle;
 

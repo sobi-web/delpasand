@@ -17,7 +17,7 @@ class TagsTable
             ->columns([
                 TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('parent_id')
+                TextColumn::make('parent.name')
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')
