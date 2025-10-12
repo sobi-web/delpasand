@@ -25,4 +25,10 @@ class MuscleGroup extends Model
     {
         return $this->belongsToMany(Exercise::class, 'exercise_muscle_group');
     }
+
+    public function ParrentName() {
+        if ($this->parent_id() != null) {
+
+        }
+    }
 }

@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->text('description')->nullable();
             $table->enum('skill_complexity', ['Beginner', 'Intermediate', 'Advanced']);
             $table->string('image')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
 

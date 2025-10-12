@@ -4,9 +4,12 @@ namespace App\Models\Exercise;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Exercise extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -40,8 +43,9 @@ class Exercise extends Model
     }
 
     // One-to-Many با تمرین‌های روز برنامه
-    public function programDayExercises()
-    {
-        return $this->hasMany(\App\Models\Workout\ProgramDayExercise::class);
-    }
+//    public function programDayExercises()
+//    {
+//        return $this->hasMany(\App\Models\Workout\ProgramDayExercise::class);
+//    }
+
 }
