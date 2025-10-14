@@ -17,7 +17,7 @@ class ExerciseTypesTable
             ->columns([
                 TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('parent.name')
+                TextColumn::make( 'parent.name' === '1' ? '-' : 'parent.name'  )
                     ->numeric()
                     ->sortable(),
                 TextColumn::make('created_at')
