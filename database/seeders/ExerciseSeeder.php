@@ -3,11 +3,11 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Exercise\Exercise;
-use App\Models\Exercise\MuscleGroup;
-use App\Models\Exercise\Tool;
-use App\Models\Exercise\Tag;
-use App\Models\Exercise\ExerciseType;
+use App\Models\Exercises\Exercise;
+use App\Models\Exercises\MuscleGroup;
+use App\Models\Exercises\Tool;
+use App\Models\Exercises\Tag;
+use App\Models\Exercises\ExerciseType;
 
 class ExerciseSeeder extends Seeder
 {
