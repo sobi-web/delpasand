@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title'); // عنوان برنامه مثلاً "برنامه حجمی ۸ هفته‌ای"
             $table->text('description')->nullable(); // توضیحات کلی برنامه
+            $table->string('customer')->nullable();
             $table->timestamps();
         });
 
@@ -36,7 +37,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('day_of_week')->comment('1=شنبه, 2=یکشنبه, ..., 7=جمعه');
             $table->unsignedInteger('sort')->default(0);
 
-            $table->timestamps();
+
         });
 
 
@@ -57,7 +58,6 @@ return new class extends Migration
 
             // فیلد order برای مرتب‌سازی تمرین‌ها در روز
             $table->unsignedInteger('order')->default(1);
-            $table->timestamps();
         });
 
 
@@ -73,11 +73,10 @@ return new class extends Migration
                 ->constrained('day_exercises')
                 ->cascadeOnDelete();
 
-            $table->unsignedTinyInteger('set_number')->default(1)->comment('شماره ست');
-            $table->unsignedSmallInteger('reps')->default(10)->comment('تعداد تکرار در ست');
-            $table->decimal('weight', 6, 2)->nullable()->comment('وزن مورد استفاده بر حسب کیلوگرم');
-            $table->unsignedSmallInteger('rest_seconds')->default(60)->comment('مدت استراحت بین ست‌ها بر حسب ثانیه');
-            $table->timestamps();
+            $table->string('set_number')->default(1)->comment('شماره ست');
+            $table->string('reps')->default(10)->comment('تعداد تکرار در ست');
+            $table->string('tempo')->nullable()->comment('سرعت تمرین');
+            $table->string('rest_seconds')->default(60)->comment('مدت استراحت بین ست‌ها بر حسب ثانیه');
         });
     }
 

@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class ExerciseSet extends Model
 {
     use HasFactory;
-
+    public $timestamps = false;
     protected $fillable = [
         'day_exercise_id',
         'set_number',
         'reps',
-        'weight',
+        'tempo',
         'rest_seconds',
     ];
 

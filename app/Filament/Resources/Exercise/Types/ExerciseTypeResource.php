@@ -20,9 +20,9 @@ class ExerciseTypeResource extends Resource
 {
     protected static ?string $model = ExerciseType::class;
 
-    protected static ?string $navigationLabel = 'Type';
-//    protected static ?string $navigationGroup = '1' ;
-    protected static string|null|\UnitEnum $navigationGroup = 'Exercises';
+    protected static ?string $modelLabel = 'نوع تمرین';
+    protected static ?string $pluralModelLabel = 'نوع تمرین ها';
+    protected static string|null|\UnitEnum $navigationGroup = 'تمرین ها';
     protected static ?int $navigationSort = 1;
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedInformationCircle;
 

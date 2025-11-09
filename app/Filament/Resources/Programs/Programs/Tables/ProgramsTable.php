@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Programs\Programs\Tables;
 
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -32,6 +33,11 @@ class ProgramsTable
             ->recordActions([
                 ViewAction::make(),
                 EditAction::make(),
+                Action::make('download')
+                    ->label('دانلود PDF')
+                    ->url(fn ($record) => route('pdf.show', $record->id))
+                    ->openUrlInNewTab()
+                    ->icon('heroicon-o-document-arrow-down'),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

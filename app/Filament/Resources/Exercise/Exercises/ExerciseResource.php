@@ -24,6 +24,8 @@ class ExerciseResource extends Resource
     protected static ?string $navigationLabel = 'تمرین ها';
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedLightBulb;
     protected static string|null|\UnitEnum $navigationGroup = 'تمرین ها';
+    protected static ?string $modelLabel = ' تمرین';
+    protected static ?string $pluralModelLabel = ' تمرین ها';
 
     protected static ?string $recordTitleAttribute = 'تمرین ها';
 

@@ -11,20 +11,24 @@ use Filament\Tables\Table;
 
 class ToolsTable
 {
+
     public static function configure(Table $table): Table
     {
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->label('نام')
                     ->searchable(),
                 TextColumn::make('parent.name')
-                    ->numeric()
-                    ->sortable(),
+                    ->label('دسته اصلی')
+                    ->numeric(),
                 TextColumn::make('created_at')
+                    ->label('تاریخ ایجاد')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('updated_at')
+                    ->label('تاریخ ایجاد')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

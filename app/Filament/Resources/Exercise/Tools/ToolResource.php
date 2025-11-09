@@ -19,9 +19,11 @@ use Filament\Tables\Table;
 class ToolResource extends Resource
 {
     protected static ?string $model = Tool::class;
+    protected static ?string $modelLabel = 'ابزار تمرین';
+    protected static ?string $pluralModelLabel = 'ابزار ها';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedWrenchScrewdriver;
-    protected static string|null|\UnitEnum $navigationGroup = 'Exercises';
+    protected static string|null|\UnitEnum $navigationGroup = 'تمرین ها';
 
     protected static ?string $recordTitleAttribute = 'Tools';
 

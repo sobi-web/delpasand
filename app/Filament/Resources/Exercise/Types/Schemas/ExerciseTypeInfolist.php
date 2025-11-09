@@ -11,8 +11,10 @@ class ExerciseTypeInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('name'),
-                TextEntry::make('parent_id')
+                TextEntry::make('name')
+                    ->label('نام'),
+                TextEntry::make('parent.name')
+                    ->label('دسته اصلی')
                     ->numeric()
                     ->placeholder('-'),
                 TextEntry::make('created_at')

@@ -2,25 +2,31 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Widgets\ExerciseStatsWidget;
+use App\Filament\Widgets\ProgramStatsWidget;
+use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Select;
 use Filament\Pages\Dashboard as BaseDashboard;
-use App\Filament\Widgets\StatsOverviewWidget;
-use Filament\Support\Icons\Heroicon;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Schema;
+use Filament\Widgets\Widget;
 
 class Dashboard extends BaseDashboard
 {
-//    protected static ?string $navigationIcon = 'heroicon-o-home';
-//    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedHome;
-//    protected static ?string $title = 'داشبورد مدیریتی';
+    use BaseDashboard\Concerns\HasFiltersForm;
 
-//    protected function getWidgets(): array
-//    {
-//        return [
-//            StatsOverviewWidget::class, // فقط ویجت آماری خاص ما
-//        ];
-//    }
-//
-//    protected function getColumns(): int
-//    {
-//        return 2; // چیدمان دو ستونه برای ویجت‌ها
-//    }
+    public function getWidgets(): array
+    {
+        return [
+            // هر دو ویجت را مستقیماً در آرایه قرار می‌دهیم.
+            // Filament این دو را در یک ردیف با استفاده از چیدمان پیش‌فرض خود (که معمولاً 2 ستونی است) نمایش می‌دهد.
+            ProgramStatsWidget::class,
+            ExerciseStatsWidget::class,
+
+        ];
+
+
+    }
+
 }

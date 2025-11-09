@@ -13,10 +13,11 @@ class ToolForm
         return $schema
             ->components([
                 TextInput::make('name')
+                    ->label('نام')
                     ->required(),
                 Select::make('parent')
                     ->relationship('parent', 'name')
-                    ->label('Parent'),
+                    ->label('دسته اصلی'),
             ]);
 
     }

@@ -6,6 +6,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\MultiSelect;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
@@ -22,17 +23,22 @@ class ExerciseForm
                     ->label('میزان سختی')
                     ->options(['Beginner' => 'مبتدی', 'Intermediate' => 'متوسط', 'Advanced' => 'سخت'])
                     ->required(),
-                RichEditor::make('description')
+                Textarea::make('description')
                     ->label('توضیحات')
-                    ->json()
+
                     ->columnSpanFull()
                 ,
 
                 FileUpload::make('image')
+                    ->label('تصویر تمرین')
                     ->image()
-                    ->label('تصویر')
-                    ->columnSpanFull()
-                ,
+                    ->directory('exercises')
+                    ->visibility('public')
+                    ->maxSize(2048) // 2MB
+                    ->multiple(false),
+
+
+
                 MultiSelect::make('exerciseTypes')
                    ->label('نوع تمرین')
                     ->relationship('exerciseTypes', 'name'),

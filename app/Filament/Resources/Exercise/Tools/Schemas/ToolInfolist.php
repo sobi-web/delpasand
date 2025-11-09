@@ -11,14 +11,18 @@ class ToolInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('name'),
+                TextEntry::make('name')
+                    ->label('نام'),
                 TextEntry::make('parent_id')
+                    ->label('دسته اصلی')
                     ->numeric()
                     ->placeholder('-'),
                 TextEntry::make('created_at')
+                    ->label('تاریخ ایجاد')
                     ->dateTime()
                     ->placeholder('-'),
                 TextEntry::make('updated_at')
+                    ->label('تاریخ آخرین تغییر')
                     ->dateTime()
                     ->placeholder('-'),
             ]);

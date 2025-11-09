@@ -12,14 +12,18 @@ class Tool extends Model
 
     public function parent()
     {
-        return $this->belongsTo(Tool::class, 'parent_id');
+        // در اینجا، ما به صورت صریح می گوییم که جدول دوم (که به آن ارجاع می دهیم) باید نام مستعار 'parent_tool' داشته باشد
+        return $this->belongsTo(Tool::class, 'parent_id', 'id')
+            ->select('tools.*'); // بهتر است ستون‌ها را مشخص کنید
     }
 
+// 2. رابطه فرزند (Children)
     public function children()
     {
-        return $this->hasMany(Tool::class, 'parent_id');
+        // در اینجا، ما به صورت صریح می گوییم که جدول دوم (که با آن Join می شویم) باید نام مستعار 'child_tool' داشته باشد
+        return $this->hasMany(Tool::class, 'parent_id', 'id')
+            ->select('tools.*'); // بهتر است ستون‌ها را مشخص کنید
     }
-
     public function exercises()
     {
         return $this->belongsToMany(Exercise::class, 'exercise_tool');

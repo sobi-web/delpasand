@@ -2,13 +2,14 @@
 
 namespace App\Models\Programs;
 
+use App\Models\Exercises\Exercise;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class DayExercise extends Model
 {
     use HasFactory;
-
+    public $timestamps = false;
     protected $fillable = [
         'training_day_id',
         'exercise_id',

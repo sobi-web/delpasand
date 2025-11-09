@@ -11,6 +11,7 @@ class Program extends Model
     protected $fillable = [
         'title',
         'description',
+        'customer' ,
     ];
 
     /**
@@ -20,6 +21,8 @@ class Program extends Model
     {
         return $this->hasMany(TrainingDay::class);
     }
+
+
 
     /**
      * شمارش روزهای برنامه
@@ -38,4 +41,5 @@ class Program extends Model
             $program->days()->each->delete();
         });
     }
+
 }

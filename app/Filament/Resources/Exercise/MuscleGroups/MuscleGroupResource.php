@@ -23,6 +23,8 @@ class MuscleGroupResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleGroup;
     protected static string|null|\UnitEnum $navigationGroup = 'تمرین ها';
     protected static ?string $navigationLabel = 'گروه عضلانی';
+    protected static ?string $modelLabel = 'گروه عضلانی';
+    protected static ?string $pluralModelLabel = 'گروه های عضلانی';
 
 
     protected static ?string $recordTitleAttribute = 'MuscleGroups';

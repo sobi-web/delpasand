@@ -23,7 +23,8 @@ class TagResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTag;
     protected static string|null|\UnitEnum $navigationGroup = 'تمرین ها';
     protected static ?string $navigationLabel = 'تگ ها';
-
+    protected static ?string $modelLabel = 'تگ';
+    protected static ?string $pluralModelLabel = ' تگ        ها';
     protected static ?string $recordTitleAttribute = 'Tags';
 
     public static function form(Schema $schema): Schema

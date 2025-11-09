@@ -23,7 +23,6 @@ class ProgramForm
     public static function configure(Schema $schema): Schema
     {
         return $schema
-
             ->schema([
                 Section::make('Program Details')
                     ->columnSpanFull()
@@ -32,6 +31,10 @@ class ProgramForm
                     ->schema([
                         TextInput::make('title')
                             ->label('عنوان برنامه')
+                            ->required()
+                            ->maxLength(255),
+                        TextInput::make('customer')
+                            ->label('نام مراجعه کننده')
                             ->required()
                             ->maxLength(255),
 
@@ -67,7 +70,6 @@ class ProgramForm
                                 Repeater::make('exercises')
                                     ->relationship('exercises')
                                     ->label('تمرین ها')
-
                                     ->schema([
                                         // 🔹 فیلترهای بالا برای ابزار، گروه عضلات و نوع
                                         Select::make('tool_filter')
@@ -126,16 +128,19 @@ class ProgramForm
                                             ->relationship('sets')
                                             ->label('اطلاعات ست تمرین')
                                             ->schema([
+                                                TextInput::make('set_number')
+                                                    ->label('تعداد ست'),
+
                                                 TextInput::make('reps')
-                                                    ->numeric()
                                                     ->label('تکرار'),
 
-                                                TextInput::make('weight')
-                                                    ->numeric()
-                                                    ->label('وزن'),
 
-                                                Textarea::make('notes')
+
+                                                Textarea::make('tempo')
                                                     ->rows(1)
+                                                    ->label('سرعت اجرا'),
+
+                                                TextInput::make('rest_seconds')
                                                     ->label('تایم استراحت'),
                                             ]),
                                     ]),

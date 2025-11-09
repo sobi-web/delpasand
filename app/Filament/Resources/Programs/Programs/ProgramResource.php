@@ -21,6 +21,8 @@ class ProgramResource extends Resource
     protected static ?string $model = Program::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|null|\UnitEnum $navigationGroup = 'ساخت برنامه تمرینی';
+
     protected static ?string $modelLabel = 'برنامه تمرینی';
     protected static ?string $pluralModelLabel = 'برنامه‌ها';
 
