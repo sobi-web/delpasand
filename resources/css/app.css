@@ -9,3 +9,47 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+
+
+/* Vazir webfont declarations. Files live in public/fonts/ and are referenced from the site root as /fonts/... */
+
+@font-face {
+    font-family: 'Vazir';
+    src: url('../../storage/fonts/Vazir-Thin.ttf') format('ttf');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Vazir';
+    src: url('../../storage/fonts/Vazir-Light.ttf') format('ttf');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+
+@font-face {
+    font-family: 'Vazir';
+    src: url('../../storage/fonts/Vazir-Medium.ttf') format('ttf');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Vazir';
+    src: url('../../storage/fonts/Vazir-Bold.ttf') format('ttf');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+/* Use Vazir as the site's default with sensible fallbacks */
+* {
+    font-family: 'Vazir', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
