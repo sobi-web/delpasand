@@ -34,7 +34,9 @@ class ExercisesTable
                         'danger' => 'Intermediate',
                     ]),
                 ImageColumn::make('image')
-                ->label('تصویر'),
+                ->label('تصویر')
+                ->disk('local')
+                ->visibility('public'),
                 TextColumn::make('created_at')
                     ->label('تاریخ ایجاد')
                     ->dateTime()

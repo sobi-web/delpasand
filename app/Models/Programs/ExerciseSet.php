@@ -15,6 +15,7 @@ class ExerciseSet extends Model
         'reps',
         'tempo',
         'rest_seconds',
+        'note'
     ];
 
     /**

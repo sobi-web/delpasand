@@ -14,6 +14,8 @@ class ProgramFactory extends Factory
         return [
             'title'       => $this->faker->sentence(3),
             'description' => $this->faker->paragraph(),
+            'customer' => $this->faker->name(),
+            'week_count' => $this->faker->numberBetween(1, 8),
         ];
     }
 

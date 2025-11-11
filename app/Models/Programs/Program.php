@@ -12,6 +12,7 @@ class Program extends Model
         'title',
         'description',
         'customer' ,
+        'week_count',
     ];
 
     /**

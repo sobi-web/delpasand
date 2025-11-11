@@ -23,7 +23,9 @@ class ExerciseInfolist
                     ->badge(),
                 ImageEntry::make('image')
                     ->label('تصویر')
-                    ->placeholder('-'),
+                    ->placeholder('-')
+                    ->disk('local')
+                    ->visibility('public'),
                 TextEntry::make('created_at')
                     ->label('تاریخ ایجاد')
                     ->dateTime()

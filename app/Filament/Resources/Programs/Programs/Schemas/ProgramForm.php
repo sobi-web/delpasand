@@ -33,10 +33,22 @@ class ProgramForm
                             ->label('عنوان برنامه')
                             ->required()
                             ->maxLength(255),
+
+
+
+
                         TextInput::make('customer')
                             ->label('نام مراجعه کننده')
                             ->required()
+
                             ->maxLength(255),
+
+                        TextInput::make('week_count')
+                            ->label('تعداد هفته اجرای برنامه')
+                             ->required()
+                        ->maxLength(255)
+                        ->integer()
+                        ->numeric(),
 
                         Textarea::make('description')
                             ->label('توضیحات')
@@ -51,7 +63,7 @@ class ProgramForm
                             ->relationship('days')
                             ->label('روز هفته')
                             ->schema([
-                                TextInput::make('name')
+                                TextInput::make('title')
                                     ->required()
                                     ->label('عنوان روز'),
 
@@ -101,7 +113,7 @@ class ProgramForm
                                             ->label('تمرین ها')
                                             ->searchable()
                                             ->getSearchResultsUsing(function (string $search, callable $get) {
-                                                $query = \App\Models\Exercises\Exercise::query()
+                                                $query = Exercise::query()
                                                     ->where('name', 'like', "%{$search}%");
 
                                                 // همین فیلترها رو در حالت جستجو هم اعمال کن
@@ -135,13 +147,14 @@ class ProgramForm
                                                     ->label('تکرار'),
 
 
-
                                                 Textarea::make('tempo')
                                                     ->rows(1)
                                                     ->label('سرعت اجرا'),
 
                                                 TextInput::make('rest_seconds')
                                                     ->label('تایم استراحت'),
+                                                TextInput::make('note')
+                                                    ->label('نکته اجرای تمرین'),
                                             ]),
                                     ]),
 
