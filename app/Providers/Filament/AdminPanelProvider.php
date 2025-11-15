@@ -28,10 +28,10 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->brandName('دکتر دلپسند')
             ->id('admin')
-            ->path('admin')
+            ->path('admin-delpasand')
             ->login()
             ->colors([
-                'primary' => Color::Amber,
+                'Green' => Color::Amber,
             ])
             ->navigationGroups([
                 'Exercises',

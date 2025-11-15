@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Exercise\Exercises\Schemas;
 use Filament\Infolists\Components\ImageEntry;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Storage;
 
 class ExerciseInfolist
 {
@@ -24,8 +25,10 @@ class ExerciseInfolist
                 ImageEntry::make('image')
                     ->label('تصویر')
                     ->placeholder('-')
-                    ->disk('local')
-                    ->visibility('public'),
+                    ->disk('public')
+                    ->visibility('public')
+                    ->getStateUsing(fn ($record) => $record->image ? Storage::url($record->image) : null)
+                ,
                 TextEntry::make('created_at')
                     ->label('تاریخ ایجاد')
                     ->dateTime()

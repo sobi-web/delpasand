@@ -43,10 +43,10 @@ class TrainingDay extends Model
     /**
      * حذف cascade داخلی برای تمرین‌ها
      */
-    protected static function booted(): void
-    {
-        static::deleting(function (TrainingDay $day) {
-            $day->exercises()->each->delete();
-        });
-    }
+//    protected static function booted(): void
+//    {
+//        static::deleting(function (TrainingDay $day) {
+//            $day->exercises()->each->delete();
+//        });
+//    }
 }

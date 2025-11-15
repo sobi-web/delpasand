@@ -6,6 +6,7 @@ use App\Models\Programs\Program;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Str;
 use Spatie\Browsershot\Browsershot;
 use Spatie\LaravelPdf\Enums\Format;
 use Spatie\LaravelPdf\Facades\Pdf;
@@ -33,45 +34,28 @@ class PdfController extends Controller
     public function export($id)
     {
         $program = Program::with('days.exercises.exercise')->findOrFail($id);
-        $name = $program->customer ;
-        $program_name =  'برنامه'. '-' . $name . '.pdf';
-        $programView = view('ProgramPdf' , [
-            'program' => $program,
-        ])->render();
-        // تولید PDF با پشتیبانی کامل از Tailwind و RTL فارسی
-        return Pdf::html($programView)
-            ->margins(0, 0, 0, 0)
-            ->landscape(true)
-            ->withBrowsershot(function (Browsershot $shot) {
+        $file =  "{$program->cutomer}/" . 'برنامه تمرینی' . '-' . $program->customer . '.pdf';
+
+        return Pdf::view('ProgramPdf', compact('program'))
+            ->margins(10, 10, 10, 10)
+            ->format('A4')                    // کاغذ استاندارد
+            ->orientation('portrait')
+            ->withBrowsershot(function ($shot) {
                 $shot->setNodeBinary('/usr/local/bin/node')
                     ->setChromePath('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')
-                    ->noSandbox()
-                    ->setDelay(1000)
+                    ->windowSize(1300, 0)
+                    ->deviceScaleFactor(2)// عرض واقعی‌تر از ۷۹۴px
                     ->setOption('printBackground', true)
-                    ->setOption('displayHeaderFooter', false)
-                    ->setOption('preferCSSPageSize', false)
                     ->setOption('args', [
                         '--no-sandbox',
-                        '--headless=new',
                         '--disable-gpu',
-                        '--disable-print-preview',
-                        '--print-to-pdf-no-header',
                         '--lang=fa-IR',
                     ])
-                    ->windowSize(1920, 50000)                 // 🚀 ارتفاع زیاد برای snapshot کامل
-                    ->setOption('paperWidth', 1920 / 96)      // حدود 20 اینچ عرض
-                    ->setOption('paperHeight', 50000 / 96)    // حدود 13 متر ارتفاع
-                    ->setOption('marginTop', 0)
-                    ->setOption('marginBottom', 0)
-                    ->setOption('marginLeft', 0)
-                    ->setOption('marginRight', 0)
 
-                    // 🚫 حذف کلی صفحه‌بندی
-                    ->setOption('scale', 1)
-                    ->setOption('printBackground', true)
-                    ->setOption('preferCSSPageSize', false);
+                    ->setDelay(800);
             })
-            ->download($program_name);
+            ->save(storage_path("app/public/{$file}"))
+            ->download($file);
     }
 
 

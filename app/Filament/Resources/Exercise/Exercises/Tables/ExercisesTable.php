@@ -16,6 +16,7 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Storage;
 
 class ExercisesTable
 {
@@ -34,9 +35,9 @@ class ExercisesTable
                         'danger' => 'Intermediate',
                     ]),
                 ImageColumn::make('image')
-                ->label('تصویر')
-                ->disk('local')
-                ->visibility('public'),
+                    ->label('تصویر')
+                    ->getStateUsing(fn ($record) => $record->image ? Storage::url($record->image) : null)
+                ,
                 TextColumn::make('created_at')
                     ->label('تاریخ ایجاد')
                     ->dateTime()

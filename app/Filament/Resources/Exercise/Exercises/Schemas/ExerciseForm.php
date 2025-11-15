@@ -30,30 +30,11 @@ class ExerciseForm
                     ->columnSpanFull()
                 ,
 
-//                FileUpload::make('image')
-//
-//                    ->label('تصویر تمرین')
-//                    ->image()
-//                    ->directory('exercises')
-//                    ->disk('local')
-//                    ->visibility('public')
-//                    ->maxSize(2048)
-//                    ->storeFileNamesIn('attachment_file_names')// 2MB
-//                   ,
                 FileUpload::make('image')
-                    ->label('فایل برنامه')
+                    ->image()
+                    ->directory('exercises')
                     ->disk('public')
-                    ->directory('programs') // داخل storage/app/public/programs
-                    ->preserveFilenames()
-                    ->getUploadedFileNameForStorageUsing(fn ($file) => time().'_'.$file->getClientOriginalName())
-                    ->afterStateUpdated(function ($state, callable $set) {
-                        if ($state) {
-                            $fullUrl = Storage::disk('public')->url($state);
-                            $set('image', $fullUrl);
-                        }
-                    }),
-
-
+                    ->visibility('public') ,
 
                 MultiSelect::make('exerciseTypes')
                    ->label('نوع تمرین')
