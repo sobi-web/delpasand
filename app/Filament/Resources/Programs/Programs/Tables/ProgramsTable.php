@@ -17,7 +17,14 @@ class ProgramsTable
         return $table
             ->columns([
                 TextColumn::make('title')
-                    ->searchable(),
+                    ->searchable()
+                    ->label('نام برنامه'),
+                TextColumn::make('customer')
+                ->searchable()
+                ->label('مراجعه کننده ')
+                ,
+                TextColumn::make('week_count')
+            ->label('تعداد هفته'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

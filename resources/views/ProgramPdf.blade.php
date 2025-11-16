@@ -197,8 +197,8 @@
                                     <div class="sets-table">
                                         <div><small>ست</small><br><strong>{{ $set->set_number }}</strong></div>
                                         <div><small>تکرار</small><br><strong>{{ $set->reps }}</strong></div>
-                                        <div><small>سرعت</small><br><strong>{{ $set->tempo }}</strong></div>
-                                        <div><small>استراحت</small><br><strong>{{ $set->rest_seconds }}</strong></div>
+                                        <div><small>سرعت</small><br><strong>{{ $set->tempo }} ثانیه</strong></div>
+                                        <div><small>استراحت</small><br><strong>{{ $set->rest_seconds }} ثانیه</strong></div>
                                     </div>
 
                                     @if($set->note)
@@ -214,30 +214,30 @@
 
 
         <!-- بخش روزهای خاص / ریکاوری -->
-        <section class="day-card">
-            <header class="day-header">
-                <h2>روزهای خاص و ریکاوری</h2>
-            </header>
-            <div class="exercise-grid">
-                <div class="exercise-card">
-                    <strong>روز استراحت فعال</strong>
-                    <span class="note">Recovery</span>
-                    <p class="note">پیاده‌روی سبک، کشش دینامیک، فومی رولینگ – فعال نگه داشتن عضلات بدون فشار زیاد.</p>
-                </div>
+{{--        <section class="day-card">--}}
+{{--            <header class="day-header">--}}
+{{--                <h2>روزهای خاص و ریکاوری</h2>--}}
+{{--            </header>--}}
+{{--            <div class="exercise-grid">--}}
+{{--                <div class="exercise-card">--}}
+{{--                    <strong>روز استراحت فعال</strong>--}}
+{{--                    <span class="note">Recovery</span>--}}
+{{--                    <p class="note">پیاده‌روی سبک، کشش دینامیک، فومی رولینگ – فعال نگه داشتن عضلات بدون فشار زیاد.</p>--}}
+{{--                </div>--}}
 
-                <div class="exercise-card">
-                    <strong>تمرین هوازی</strong>
-                    <span class="note">Cardio</span>
-                    <p class="note">دویدن ۲۰‑۴۰ دقیقه یا دوچرخه‌سواری با شدت متغیر.</p>
-                </div>
+{{--                <div class="exercise-card">--}}
+{{--                    <strong>تمرین هوازی</strong>--}}
+{{--                    <span class="note">Cardio</span>--}}
+{{--                    <p class="note">دویدن ۲۰‑۴۰ دقیقه یا دوچرخه‌سواری با شدت متغیر.</p>--}}
+{{--                </div>--}}
 
-                <div class="exercise-card">
-                    <strong>کشش و ریکاوری</strong>
-                    <span class="note">Mobility</span>
-                    <p class="note">تمرینات کششی استاتیک، تمرکز روی مفاصل و بهبود دامنهٔ حرکتی.</p>
-                </div>
-            </div>
-        </section>
+{{--                <div class="exercise-card">--}}
+{{--                    <strong>کشش و ریکاوری</strong>--}}
+{{--                    <span class="note">Mobility</span>--}}
+{{--                    <p class="note">تمرینات کششی استاتیک، تمرکز روی مفاصل و بهبود دامنهٔ حرکتی.</p>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </section>--}}
     </div>
 </main>
 
