@@ -17,7 +17,7 @@
         "installDevDependencies": true,
         "configCache": true,
         "routeCache": true,
-        "buildAssets": false
+        "buildAssets": true
     },
 
     "disks": []

@@ -31,7 +31,7 @@ class PdfController extends Controller
     }
 
 
-    public function export($id)
+    public function test($id)
     {
         $program = Program::with('days.exercises.exercise')->findOrFail($id);
         $file =  "{$program->cutomer}/" . 'برنامه تمرینی' . '-' . $program->customer . '.pdf';
@@ -57,6 +57,36 @@ class PdfController extends Controller
             ->save(storage_path("app/public/{$file}"))
             ->download($file);
     }
+
+
+    public function export($id)
+    {
+        $program = Program::with('days.exercises.exercise')->findOrFail($id);
+
+        $file = "{$program->customer}/برنامه تمرینی-{$program->customer}.pdf";
+
+        return Pdf::view('ProgramPdf', compact('program'))
+            ->margins(10, 10, 10, 10)
+            ->format('A4')
+            ->orientation('portrait')
+            ->withBrowsershot(function ($shot) {
+                $shot->setNodeBinary(env('BROWSERSHOT_NODE_PATH'))
+                    ->setChromiumBinary(env('BROWSERSHOT_CHROME_PATH'))
+                    ->setRemoteInstance(env('BROWSERSHOT_BROWSER_URL')) // اتصال به ریموت
+                    ->windowSize(1300, 0)
+                    ->deviceScaleFactor(2)
+                    ->setOption('printBackground', true)
+                    ->addChromiumArguments([
+                        '--no-sandbox',
+                        '--disable-gpu',
+                        '--lang=fa-IR',
+                    ])
+                    ->setDelay(800);
+            })
+            ->save(storage_path("app/public/{$file}"))
+            ->download($file);
+    }
+
 
 
 }
