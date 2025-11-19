@@ -4,13 +4,6 @@
 
     "port": 3000,
 
-    "build": {
-        "location": "iran",
-        "nodeVersion": "22",
-        "installCommand": "npm ci",
-        "buildCommand": "npm run build"
-    },
-
     "laravel": {
         "phpVersion": "8.4",
         "timezone": "Asia/Tehran",
@@ -20,5 +13,10 @@
         "buildAssets": true
     },
 
-    "disks": []
+    "disks": [
+        {
+            "name": "public",
+            "mountTo": "storage"
+        }
+    ]
 }
