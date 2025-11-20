@@ -21,3 +21,10 @@ Route::get('/test/{id}' , function ($id){
 
        return view('ProgramPdf' , ['program' => $program]);
 });
+
+Route::get('/secure-check', function (\Illuminate\Http\Request $request) {
+    return [
+        'isSecure' => $request->isSecure(),
+        'scheme'   => $request->getScheme(),
+    ];
+});
