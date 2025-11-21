@@ -30,9 +30,9 @@ class ExercisesTable
                 BadgeColumn::make('skill_complexity')
                     ->label('میزان سختی')
                     ->colors([
-                        'primary' => 'Beginner',
-                        'success' => 'Advanced',
-                        'danger' => 'Intermediate',
+                        'primary' => 'Intermediate',
+                        'success' => 'Beginner',
+                        'danger' => 'Advanced',
                     ]),
                 ImageColumn::make('image')
                     ->label('تصویر')

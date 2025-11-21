@@ -42,7 +42,7 @@ class ProgramsTable
                 EditAction::make(),
                 Action::make('download')
                     ->label('دانلود PDF')
-                    ->url(fn ($record) => route('pdf.show', $record->id))
+                    ->url(fn ($record) => route('pdf.export', $record->id))
                     ->openUrlInNewTab()
                     ->icon('heroicon-o-document-arrow-down'),
             ])
