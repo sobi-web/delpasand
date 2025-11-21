@@ -34,7 +34,7 @@ class PdfController extends Controller
     public function test($id)
     {
         $program = Program::with('days.exercises.exercise')->findOrFail($id);
-        $file =  "{$program->cutomer}/" . 'برنامه تمرینی' . '-' . $program->customer . '.pdf';
+        $file = "{$program->cutomer}/" . 'برنامه تمرینی' . '-' . $program->customer . '.pdf';
 
         return Pdf::view('ProgramPdf', compact('program'))
             ->margins(10, 10, 10, 10)
@@ -51,7 +51,6 @@ class PdfController extends Controller
                         '--disable-gpu',
                         '--lang=fa-IR',
                     ])
-
                     ->setDelay(800);
             })
             ->save(storage_path("app/public/{$file}"))
@@ -62,31 +61,49 @@ class PdfController extends Controller
     public function export($id)
     {
         $program = Program::with('days.exercises.exercise')->findOrFail($id);
+        $filePath = "{$program->customer}/" . 'برنامه تمرینی' . '-' . $program->customer . '.pdf';
+        $fullPath = storage_path("app/public/{$filePath}");
 
-        $file = "{$program->customer}/برنامه تمرینی-{$program->customer}.pdf";
-
-        return Pdf::view('ProgramPdf', compact('program'))
+        $pdf = Pdf::view('ProgramPdf', compact('program'))
             ->margins(10, 10, 10, 10)
             ->format('A4')
             ->orientation('portrait')
-            ->withBrowsershot(function ($shot) {
-                $shot->setNodeBinary(env('BROWSERSHOT_NODE_PATH'))
-                    ->setChromiumBinary(env('BROWSERSHOT_CHROME_PATH'))
-                    ->setRemoteInstance(env('BROWSERSHOT_BROWSER_URL')) // اتصال به ریموت
-                    ->windowSize(1300, 0)
-                    ->deviceScaleFactor(2)
-                    ->setOption('printBackground', true)
-                    ->addChromiumArguments([
-                        '--no-sandbox',
-                        '--disable-gpu',
-                        '--lang=fa-IR',
-                    ])
-                    ->setDelay(800);
+            ->withBrowsershot(function ($browsershot) {
+                // === انتخاب حالت بر اساس environment ===
+                if (app()->isProduction()) {
+                    // ✅ در پروداکشن (لیارا یا هر سرور بدون مرورگر)
+                    $browsershot
+                        ->setRemoteInstance(env('BROWSERSHOT_BROWSER_URL'))
+                        ->setNodeBinary(env('BROWSERSHOT_NODE_PATH', '/usr/bin/node'))
+                        ->noSandbox()
+                        ->windowSize(1300, 1800)
+                        ->deviceScaleFactor(2)
+                        ->setOption('printBackground', true)
+                        ->setOption('args', [
+                            '--disable-gpu',
+                            '--lang=fa-IR',
+                        ])
+                        ->waitUntilNetworkIdle();
+                } else {
+                    // 🧑‍💻 در حالت development (لوکال)
+                    $browsershot
+                        ->setNodeBinary('/usr/local/bin/node')
+                        ->setChromePath('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')
+                        ->windowSize(1300, 1800)
+                        ->deviceScaleFactor(2)
+                        ->setOption('printBackground', true)
+                        ->setOption('args', [
+                            '--no-sandbox',
+                            '--disable-gpu',
+                            '--lang=fa-IR',
+                        ])
+                        ->setDelay(800);
+                }
             })
-            ->save(storage_path("app/public/{$file}"))
-            ->download($file);
-    }
+            ->save($fullPath);
 
+        return response()->download($fullPath)->deleteFileAfterSend();
+    }
 
 
 }
