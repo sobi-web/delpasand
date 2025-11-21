@@ -134,7 +134,11 @@
             img { max-width: 100% !important; height: auto !important; }
         }
     </style>
+
 </head>
+
+@vite('resources/css/app.css')
+@vite('resources/js/app.js')
 
 <body>
 

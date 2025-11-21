@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Programs\Program;
-use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Str;
@@ -16,94 +15,55 @@ class PdfController extends Controller
 {
     public function show($id)
     {
-//        // بارگذاری روابط لازم برای PDF
-//        $program = Program::with('days.exercises.exercise')->findOrFail($id);
-//        $view = view('ProgramPdf')
-//            ->setOption('isHtml5ParserEnabled', true)
-//            ->setOption('isRemoteEnabled', true)
-//            ->render();
-//
-//        $contentLines = substr_count($view, '<tr>') ?: 30;
-//        $estimatedHeight = max(842, $contentLines * 25 + 2000);
-//
-//        $pdf = Pdf::loadHTML($view, 'UTF-8')->setPaper([0, 0, 595.28, $estimatedHeight], 'portrait') ;
-//        return $pdf->download('program-'.$program->id.'.pdf');
-    }
-
-
-    public function test($id)
-    {
         $program = Program::with('days.exercises.exercise')->findOrFail($id);
-        $file = "{$program->cutomer}/" . 'برنامه تمرینی' . '-' . $program->customer . '.pdf';
 
-        return Pdf::view('ProgramPdf', compact('program'))
-            ->margins(10, 10, 10, 10)
-            ->format('A4')                    // کاغذ استاندارد
-            ->orientation('portrait')
-            ->withBrowsershot(function ($shot) {
-                $shot->setNodeBinary('/usr/local/bin/node')
-                    ->setChromePath('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')
-                    ->windowSize(1300, 0)
-                    ->deviceScaleFactor(2)// عرض واقعی‌تر از ۷۹۴px
-                    ->setOption('printBackground', true)
-                    ->setOption('args', [
-                        '--no-sandbox',
-                        '--disable-gpu',
-                        '--lang=fa-IR',
-                    ])
-                    ->setDelay(800);
-            })
-            ->save(storage_path("app/public/{$file}"))
-            ->download($file);
+
+        return view('ProgramPdf' , ['program' => $program]);
     }
+
+
+
 
 
     public function export($id)
     {
-        $program = Program::with('days.exercises.exercise')->findOrFail($id);
-        $filePath = "{$program->customer}/" . 'برنامه تمرینی' . '-' . $program->customer . '.pdf';
-        $fullPath = storage_path("app/public/{$filePath}");
+        $program = Program::findOrFail($id);
+        $url = route('pdf.preview', ['id' => $id]);
+       $customer = str_replace(' ' , '-', $program->customer);
+        $fileName = "برنامه-تمرینی-{$customer}.pdf";
+        $relativePath = "progarms/{$program->id}/{$fileName}";
+        $localPath = storage_path("app/public/{$relativePath}");
 
-        $pdf = Pdf::view('ProgramPdf', compact('program'))
-            ->margins(10, 10, 10, 10)
+
+        // 💡 نکته: متدها را پشت سر هم زنجیر کن بدون return string
+         $pdf =  Browsershot::url($url) // توجه کن که این باید setUrl باشه نه url()
+            ->setOption('browserWSEndpoint', env('REMOTE_CHROME_WSS'))
+            ->setNodeBinary(env('BROWSERSHOT_NODE_PATH', '/usr/bin/node'))
+            ->setOption('args', [
+                '--no-sandbox',
+                '--disable-gpu',
+                '--disable-dev-shm-usage',
+                '--disable-setuid-sandbox',
+                '--no-zygote',
+                '--disable-background-timer-throttling',
+                '--disable-backgrounding-occluded-windows',
+                '--disable-renderer-backgrounding',
+                '--disable-extensions',
+                '--disable-breakpad',
+                '--lang=fa-IR',
+            ])
+            ->setOption('printBackground', true)
             ->format('A4')
-            ->orientation('portrait')
-            ->withBrowsershot(function ($browsershot) {
-                // === انتخاب حالت بر اساس environment ===
-                if (app()->isProduction()) {
-                    // ✅ در پروداکشن (لیارا یا هر سرور بدون مرورگر)
-                    $browsershot
-                        ->setRemoteInstance(env('BROWSERSHOT_BROWSER_URL'))
-                        ->setNodeBinary(env('BROWSERSHOT_NODE_PATH', '/usr/bin/node'))
-                        ->noSandbox()
-                        ->windowSize(1300, 1800)
-                        ->deviceScaleFactor(2)
-                        ->setOption('printBackground', true)
-                        ->setOption('args', [
-                            '--disable-gpu',
-                            '--lang=fa-IR',
-                        ])
-                        ->waitUntilNetworkIdle();
-                } else {
-                    // 🧑‍💻 در حالت development (لوکال)
-                    $browsershot
-                        ->setNodeBinary('/usr/local/bin/node')
-                        ->setChromePath('/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')
-                        ->windowSize(1300, 1800)
-                        ->deviceScaleFactor(2)
-                        ->setOption('printBackground', true)
-                        ->setOption('args', [
-                            '--no-sandbox',
-                            '--disable-gpu',
-                            '--lang=fa-IR',
-                        ])
-                        ->setDelay(800);
-                }
-            })
-            ->save($fullPath);
+            ->delay(1500)
+            ->waitUntilNetworkIdle()
+             ->timeout(90000)
+             ->pdf($localPath);
 
-        return response()->download($fullPath)->deleteFileAfterSend();
-    }
 
+        // متد اصلی تولید PDF (می‌سازه و فایل رو ذخیره می‌کنه)
+
+        return response($pdf, 200)
+            ->header('Content-Type', 'application/pdf')
+            ->header('Content-Disposition', "attachment; filename={$fileName} ");    }
 
 }
