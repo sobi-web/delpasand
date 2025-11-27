@@ -19,10 +19,14 @@ class ExerciseTypeInfolist
                     ->placeholder('-'),
                 TextEntry::make('created_at')
                     ->dateTime()
-                    ->placeholder('-'),
+                    ->placeholder('-')
+                    ->label('تاریخ ایجاد')
+                ,
                 TextEntry::make('updated_at')
                     ->dateTime()
-                    ->placeholder('-'),
+                    ->placeholder('-')
+                    ->label('تاریخ آخرین تغییر')
+                ,
             ]);
     }
 }

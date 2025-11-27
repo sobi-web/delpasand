@@ -13,10 +13,11 @@ class MuscleGroupForm
         return $schema
             ->components([
                 TextInput::make('name')
-                    ->required(),
+                    ->required()
+                ->label('نام'),
                 Select::make('parent')
                 ->relationship('parent', 'name')
-                ->label('Parent')
+                ->label('دسته اصلی')
                     ,
             ]);
     }

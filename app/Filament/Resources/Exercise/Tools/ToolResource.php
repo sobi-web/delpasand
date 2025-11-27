@@ -25,7 +25,7 @@ class ToolResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedWrenchScrewdriver;
     protected static string|null|\UnitEnum $navigationGroup = 'تمرین ها';
 
-    protected static ?string $recordTitleAttribute = 'Tools';
+    protected static ?string $recordTitleAttribute = 'name';
 
     public static function form(Schema $schema): Schema
     {

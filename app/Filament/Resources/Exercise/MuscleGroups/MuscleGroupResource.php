@@ -27,7 +27,7 @@ class MuscleGroupResource extends Resource
     protected static ?string $pluralModelLabel = 'گروه های عضلانی';
 
 
-    protected static ?string $recordTitleAttribute = 'MuscleGroups';
+    protected static ?string $recordTitleAttribute = 'name';
 
     public static function form(Schema $schema): Schema
     {

@@ -2,9 +2,23 @@
     <h2>برنامه تمرینی: {{ $record->title }}</h2>
     <p>{{ $record->description }}</p>
 
-    @foreach($record->days as $day)
-        <h3>روز {{ $loop->iteration }} - {{ $day->title }} ({{ $day->day_of_week }})</h3>
+    @php
+        $weekDays = [
+            0 => 'شنبه',
+            1 => 'یکشنبه',
+            2 => 'دوشنبه',
+            3 => 'سه‌شنبه',
+            4 => 'چهارشنبه',
+            5 => 'پنجشنبه',
+            6 => 'جمعه',
+        ];
+    @endphp
 
+    @foreach($record->days as $day)
+        <h3>
+            روز  {{ $day->title }}
+            ({{ $weekDays[$day->day_of_week] ?? $day->day_of_week }})
+        </h3>
         @if($day->exercises->count())
             <table style="width:100%; border-collapse: collapse; margin-bottom: 20px;" border="1">
                 <thead>
@@ -22,7 +36,7 @@
                         <td>
                             @if($dayExercise->exercise->image)
                                 {{-- نمایش تصویر تمرین --}}
-                                <img src="{{ ('storage/' . $dayExercise->exercise->image) }}"
+                                <img src="{{ asset('storage/' . $dayExercise->exercise->image) }}"
                                      alt="تصویر تمرین"
                                      style="max-width:100px; height:auto;">
                             @endif

@@ -25,7 +25,7 @@ class TagResource extends Resource
     protected static ?string $navigationLabel = 'تگ ها';
     protected static ?string $modelLabel = 'تگ';
     protected static ?string $pluralModelLabel = ' تگ        ها';
-    protected static ?string $recordTitleAttribute = 'Tags';
+    protected static ?string $recordTitleAttribute = 'name';
 
     public static function form(Schema $schema): Schema
     {

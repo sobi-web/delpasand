@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Exercise\MuscleGroups\Tables;
 
+use App\Models\Exercises\MuscleGroup;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -14,10 +15,24 @@ class MuscleGroupsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(function ($query) {
+                $ids = MuscleGroup::hierarchyOrderedIds();
+
+                if (empty($ids)) {
+                    return $query;
+                }
+
+                return $query
+                    ->whereIn('id', $ids)
+                    ->orderByRaw("FIELD(id, " . implode(',', $ids) . ")");
+            })
             ->columns([
                 TextColumn::make('name')
                     ->searchable()
-                ->label('نام'),
+                    ->label('نام')
+                ->formatStateUsing(function ($state, $record) {
+                return MuscleGroup::hierarchy()[$record->id] ?? $state;
+            }),
                 TextColumn::make('parent.name')
                     ->numeric()
                     ->label('دسته اصلی')
@@ -34,16 +49,16 @@ class MuscleGroupsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
-            ])
-            ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
-            ]);
+        //
+    ])
+        ->recordActions([
+            ViewAction::make(),
+            EditAction::make(),
+        ])
+        ->toolbarActions([
+            BulkActionGroup::make([
+                DeleteBulkAction::make(),
+            ]),
+        ]);
     }
 }

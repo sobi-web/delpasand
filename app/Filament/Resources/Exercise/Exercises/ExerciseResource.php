@@ -27,7 +27,7 @@ class ExerciseResource extends Resource
     protected static ?string $modelLabel = ' تمرین';
     protected static ?string $pluralModelLabel = ' تمرین ها';
 
-    protected static ?string $recordTitleAttribute = 'تمرین ها';
+    protected static ?string $recordTitleAttribute = 'name';
 
     public static function form(Schema $schema): Schema
     {

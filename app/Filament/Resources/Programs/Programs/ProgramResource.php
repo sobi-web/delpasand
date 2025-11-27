@@ -26,7 +26,7 @@ class ProgramResource extends Resource
     protected static ?string $modelLabel = 'برنامه تمرینی';
     protected static ?string $pluralModelLabel = 'برنامه‌ها';
 
-    protected static ?string $recordTitleAttribute = 'Program';
+    protected static ?string $recordTitleAttribute = 'title';
 
     public static function form(Schema $schema): Schema
     {

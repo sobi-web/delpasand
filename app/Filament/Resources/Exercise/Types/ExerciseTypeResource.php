@@ -25,8 +25,8 @@ class ExerciseTypeResource extends Resource
     protected static string|null|\UnitEnum $navigationGroup = 'تمرین ها';
     protected static ?int $navigationSort = 1;
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedInformationCircle;
+    protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?string $recordTitleAttribute = 'Types';
 
     public static function form(Schema $schema): Schema
     {

@@ -2,6 +2,11 @@
 
 namespace App\Filament\Resources\Programs\Programs\Schemas;
 
+use App\Models\Exercises\ExerciseType;
+use App\Models\Exercises\MuscleGroup;
+use App\Models\Exercises\Tag;
+use App\Models\Exercises\Tool;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -10,6 +15,7 @@ use App\Models\Exercises\Exercise;
 use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Storage;
 
 class ProgramForm
 {
@@ -86,55 +92,102 @@ class ProgramForm
                                         // 🔹 فیلترهای بالا برای ابزار، گروه عضلات و نوع
                                         Select::make('tool_filter')
                                             ->label('فیلتر تمرین بر اساس ابزار ها')
-                                            ->options(\App\Models\Exercises\Tool::query()->pluck('name', 'id'))
+                                            ->options(fn() => Tool::hierarchy())
                                             ->reactive()
                                             ->dehydrated(false),
 
                                         Select::make('type_filter')
                                             ->label('فیلتر تمرین بر اساس نوع')
-                                            ->options(\App\Models\Exercises\ExerciseType::query()->pluck('name', 'id'))
+                                            ->options(fn() => ExerciseType::hierarchy())
                                             ->reactive()
                                             ->dehydrated(false),
 
                                         Select::make('muscle_filter')
                                             ->label('فیلتر تمرین بر اساس گروه عضلانی')
-                                            ->options(\App\Models\Exercises\MuscleGroup::query()->pluck('name', 'id'))
+                                            ->options(fn() => MuscleGroup::hierarchy())
                                             ->reactive()
                                             ->dehydrated(false),
 
                                         Select::make('tag_filter')
                                             ->label('فیلتر تمرین بر اساس برچسب ها')
-                                            ->options(\App\Models\Exercises\Tag::query()->pluck('name', 'id'))
+                                            ->options(fn() => Tag::hierarchy())
                                             ->reactive()
                                             ->dehydrated(false),
 
                                         // 🔸 انتخاب تمرین با فیلترهای پویا
                                         Select::make('exercise_id')
-                                            ->label('تمرین ها')
-                                            ->searchable()
-                                            ->getSearchResultsUsing(function (string $search, callable $get) {
-                                                $query = Exercise::query()
-                                                    ->where('name', 'like', "%{$search}%");
+                                            ->label('تمرین‌ها')
+                                            ->options(function (callable $get) {
+                                                $query = Exercise::query();
 
-                                                // همین فیلترها رو در حالت جستجو هم اعمال کن
+                                                // --- فیلترها ---
                                                 if ($toolId = $get('tool_filter')) {
                                                     $query->whereHas('tools', fn($q) => $q->where('tools.id', $toolId));
                                                 }
+
                                                 if ($typeId = $get('type_filter')) {
                                                     $query->whereHas('exerciseTypes', fn($q) => $q->where('exercise_types.id', $typeId));
                                                 }
+
                                                 if ($muscleId = $get('muscle_filter')) {
                                                     $query->whereHas('muscleGroups', fn($q) => $q->where('muscle_groups.id', $muscleId));
                                                 }
+
                                                 if ($tagId = $get('tag_filter')) {
                                                     $query->whereHas('tags', fn($q) => $q->where('tags.id', $tagId));
                                                 }
 
-                                                return $query->limit(50)->pluck('name', 'id');
+                                                // ---- تولید label HTML با عکس ----
+                                                return $query->with(['tags', 'muscleGroups', 'exerciseTypes', 'tools'])
+                                                    ->get()->mapWithKeys(function ($ex) {
+                                                    $url = Storage::disk('public')->exists($ex->image)
+                                                        ? asset('storage/' . $ex->image)
+                                                        : 'https://placehold.co/600x400/EEE/31343C?font=pt-sans&text=Exercise';
+                                                    $tags = $ex->tags->pluck('name')->join(', ');
+                                                    $muscles = $ex->muscleGroups->pluck('name')->join(', ');
+                                                    $types = $ex->exerciseTypes->pluck('name')->join(', ');
+                                                    $tools = $ex->tools->pluck('name')->join(', ');
+
+                                                    $html = '
+            <div style="
+                display:flex;
+                flex-wrap:wrap;
+                align-items:center;
+                gap:12px;
+                line-height:1.4;
+            ">
+                <img src="'.$url.'"
+                    style="width:85px;height:85px;object-fit:cover;border-radius:6px;">
+
+                <strong>'.$ex->name.'</strong>
+
+                <span style="font-size:12px;color:#555;margin-right:10px;">
+                    برچسب: '.$tags.'
+                </span>
+
+                <span style="font-size:12px;color:#555;margin-right:10px;">
+                    گروه عضلانی: '.$muscles.'
+                </span>
+
+                <span style="font-size:12px;color:#555;margin-right:10px;">
+                    نوع تمرین: '.$types.'
+                </span>
+
+                <span style="font-size:12px;color:#555;margin-right:10px;">
+                    ابزار ها : '.$tools.'
+                </span>
+
+            </div>
+        ';
+
+                                                    return [$ex->id => $html];
+                                                })->toArray();
                                             })
-                                            ->getOptionLabelUsing(fn($value): ?string => \App\Models\Exercises\Exercise::find($value)?->name)
+                                            ->allowHtml()   // مهم
+                                            ->columns(1)
+                                            ->native(false)   // مهم → ظاهر Radio / گزینه‌های زیبا
                                             ->reactive()
-                                            ->required(),
+                                        ,
 
                                         Repeater::make('sets')
                                             ->relationship('sets')

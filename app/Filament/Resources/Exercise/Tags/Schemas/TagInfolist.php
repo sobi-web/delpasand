@@ -11,16 +11,22 @@ class TagInfolist
     {
         return $schema
             ->components([
-                TextEntry::make('name'),
+                TextEntry::make('name')
+                    ->label('نام')
+                ,
                 TextEntry::make('parent.name')
-                    ->numeric()
+                    ->label('دسته اصلی')
                     ->placeholder('-'),
                 TextEntry::make('created_at')
                     ->dateTime()
+                    ->label('تاریخ ایجاد')
+
                     ->placeholder('-'),
                 TextEntry::make('updated_at')
                     ->dateTime()
-                    ->placeholder('-'),
+                    ->placeholder('-')
+                    ->label('تاریخ آخرین تغییر')
+                ,
             ]);
     }
 }

@@ -10,10 +10,12 @@ class ViewProgram extends ViewRecord
 {
     protected static string $resource = ProgramResource::class;
 
-    protected function getHeaderActions(): array
-    {
-        return [
-            EditAction::make(),
-        ];
-    }
+//    protected function getHeaderActions(): array
+//    {
+//        return [
+//            EditAction::make(),
+//        ];
+//    }
+
+
 }
